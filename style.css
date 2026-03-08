@@ -66,6 +66,7 @@ body {
   width: 50vw;
   height: 100vw;
   opacity: 0;
+  animation-fill-mode: forwards;
 }
 
 .chomp-container--from-left,
@@ -102,15 +103,6 @@ body {
 }
 @keyframes chompAnimatedToRight {
   from { transform: translateX(100vw); }
-}
-
-.chomp-container--fade-out {
-  animation-name: chompAnimatedFadeOut;
-  animation-fill-mode: forwards;
-}
-@keyframes chompAnimatedFadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
 }
 
 .chomp__spleen {
