@@ -17,24 +17,28 @@ body {
   background: grey;
 }
 
-.bug-container,
+.emoji-container,
 .spleen-container {
   position: absolute;
   left: 0;
   top: 0;
 }
 
-.bug {
-  height: 47px;
-  width: 69px;
+.emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  width: 64px;
+  font-size: 60px;
   filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.5));
   opacity: 0;
 }
 
-.bug--animate-in {
-  animation: bugAnimateIn 1s forwards ease-in;
+.emoji--animate-in {
+  animation: emojiAnimateIn 1s forwards ease-in;
 }
-@keyframes bugAnimateIn {
+@keyframes emojiAnimateIn {
   0% {
     opacity: 0;
     transform: scale(2);
@@ -50,7 +54,7 @@ body {
   }
 }
 
-.bug-container--transition-movement,
+.emoji-container--transition-movement,
 .spleen-container--transition-movement {
   transition: transform;
   transition-timing-function: cubic-bezier(1,0,.37,.51);
@@ -118,16 +122,17 @@ body {
   right: -125%;
 }
 
-.chomp__bug {
+.chomp__emoji {
   position: absolute;
   height: 33vh;
   top: calc(50% - (50vh));
+  font-size: 150px;
 }
 
-.chomp-container--from-left .chomp__bug {
+.chomp-container--from-left .chomp__emoji {
   left: 75%;
 }
 
-.chomp-container--from-right .chomp__bug {
+.chomp-container--from-right .chomp__emoji {
   right: 75%;
 }
