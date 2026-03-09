@@ -44,7 +44,7 @@ body {
     transform: scale(2);
     filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.25));
   }
-  10% {
+  20% {
     opacity: 1;
   }
   100% {
@@ -88,6 +88,26 @@ body {
 }
 @keyframes chompAnimatedFromRight {
   from { transform: translateX(100vw); }
+}
+
+.chomp-container--to-left {
+  animation-name: chompAnimatedToLeft;
+}
+@keyframes chompAnimatedToLeft {
+  to {
+    transform: translateX(-100vw);
+    opacity: 0;
+  }
+}
+
+.chomp-container--to-right {
+  animation-name: chompAnimatedToRight;
+}
+@keyframes chompAnimatedToRight {
+  to {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
 }
 
 .chomp__spleen {
