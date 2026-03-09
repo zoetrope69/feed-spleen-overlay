@@ -59,80 +59,46 @@ body {
   transition: transform;
   transition-timing-function: cubic-bezier(1,0,.37,.51);
 }
-.spleen {
-  height: 50px;
-  width: 100px;
-}
 
 .chomp-container {
   position: absolute;
-  top: 0;
-  width: 50vw;
-  height: 100vw;
+  inset: 0;
+  display: flex;
+  align-items: center;
   opacity: 0;
+  transform: translateX(0);
   animation-fill-mode: forwards;
 }
 
 .chomp-container--from-left,
 .chomp-container--from-right {
   opacity: 1;
-  transform: translateX(0vw);
 }
 
 .chomp-container--from-left {
-  left: 0;
   animation-name: chompAnimatedFromLeft;
 }
 @keyframes chompAnimatedFromLeft {
-  from { transform: translateX(-50vw); }
+  from { transform: translateX(-100vw); }
 }
 
 .chomp-container--from-right {
-  right: 0;
+  flex-direction: row-reverse;
   animation-name: chompAnimatedFromRight;
 }
 @keyframes chompAnimatedFromRight {
-  from { transform: translateX(50vw); }
-}
-
-.chomp-container--to-left {
-  animation-name: chompAnimatedToLeft;
-}
-@keyframes chompAnimatedToLeft {
-  to { transform: translateX(-100vw); }
-}
-
-.chomp-container--to-right {
-  animation-name: chompAnimatedToRight;
-}
-@keyframes chompAnimatedToRight {
-  to { transform: translateX(100vw); }
+  from { transform: translateX(100vw); }
 }
 
 .chomp__spleen {
-  position: absolute;
-  height: 100vh;
-}
-
-.chomp-container--from-left .chomp__spleen {
-  left: -125%;
+  height: 50vh;
 }
 
 .chomp-container--from-right .chomp__spleen {
-  right: -125%;
+  transform: scaleX(-1);
 }
 
 .chomp__emoji {
-  position: absolute;
-  height: 33vh;
-  top: calc(50% - (50vh));
-  font-size: 150px;
-}
-
-.chomp-container--from-left .chomp__emoji {
-  left: 75%;
-}
-
-.chomp-container--from-right .chomp__emoji {
-  right: 75%;
+  font-size: 128px;
+  margin-top: 64px;
 }
