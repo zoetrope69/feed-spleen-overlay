@@ -377,6 +377,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     runSpleenAnimation({ emoji });
   });
-
-  runSpleenAnimation({ emoji: '🐞' });
 });
