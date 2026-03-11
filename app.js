@@ -73,16 +73,19 @@ async function initSounds() {
     soundPop,
     soundWalking,
     soundHeart,
+    soundEating,
   ] = await Promise.all([
     initAudio('pop.mp3'),
     initAudio('mr-krabs-walking.mp3'),
     initAudio('sims-2-wish-fulfilled.mp3'),
+    initAudio('minecraft-eating.mp3')
   ]);
 
   return {
     soundPop,
     soundWalking,
     soundHeart,
+    soundEating,
   }
 }
 
@@ -187,6 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     soundPop,
     soundWalking,
     soundHeart,
+    soundEating,
   } = await initSounds();
 
   async function runSpleenAnimation({ emoji }) {
@@ -344,7 +348,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       `chomp-container--to-${isSpleenKidnappingToRight ? 'right' : 'left'}`
     );
 
-    await wait(slideInOutChompDurationMs);
+    await wait(slideInOutChompDurationMs - 500);
+
+    playSound(soundEating);
+
+    await wait(soundEating.duration);
+
+    await wait(500);
 
     document.body.style.opacity = '0';
 
@@ -379,4 +389,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     runSpleenAnimation({ emoji });
   });
+
+
+    runSpleenAnimation({ emoji: '🍔' });
 });
