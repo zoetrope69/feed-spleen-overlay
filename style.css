@@ -83,7 +83,6 @@ body {
 }
 
 .chomp-container--from-right {
-  flex-direction: row-reverse;
   animation-name: chompAnimatedFromRight;
 }
 @keyframes chompAnimatedFromRight {
@@ -111,17 +110,23 @@ body {
 }
 
 .chomp__spleen {
-  margin-top: -200px;
-  height: 50vh;
+  position: absolute;
+  top: 200px;
+  height: 400px;
+}
+
+.chomp-container--from-left .chomp__spleen {
+  left: 0;
 }
 
 .chomp-container--from-right .chomp__spleen {
+  right: 0;
   transform: scaleX(-1);
 }
 
 .chomp__emoji {
   position: absolute;
-  top: calc(50vh - 60px);
+  top: calc(50vh - 84px);
   font-size: 128px;
 }
 
@@ -140,12 +145,16 @@ body {
   opacity: 0;
 }
 
+.chomp__reaction--fade-in-out {
+  animation-name: chompReaction;
+}
+
 .chomp-container--from-left .chomp__reaction {
-  left: 350px;
+  left: 325px;
 }
 
 .chomp-container--from-right .chomp__reaction {
-  right: 350px;
+  right: 325px;
 }
 
 @keyframes chompReaction {

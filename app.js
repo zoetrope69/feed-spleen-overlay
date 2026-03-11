@@ -44,20 +44,45 @@ async function initImages() {
   const [
     imageSpleenFacingLeft,
     imageSpleenFacingRight,
-    imageSpleenChomp,
     imageSpleenChompStill
   ] = await Promise.all([
     initImage('spleen--facing-left.gif'),
     initImage('spleen--facing-right.gif'),
-    initImage('spleen--chomp.gif'),
     initImage('spleen--chomp-still.gif'),
   ]);
 
   return {
     imageSpleenFacingLeft,
     imageSpleenFacingRight,
-    imageSpleenChomp,
     imageSpleenChompStill
+  }
+}
+
+async function initAudio(filePath) {
+  return new Promise((resolve) => {
+    const src =  `./sounds/${filePath}`;
+    const audio = new Audio(src);
+    audio.addEventListener("canplaythrough", () => {
+      resolve(audio);
+    });
+  })
+}
+
+async function initSounds() {
+  const [
+    soundPop,
+    soundWalking,
+    soundHeart,
+  ] = await Promise.all([
+    initAudio('pop.mp3'),
+    initAudio('mr-krabs-walking.mp3'),
+    initAudio('sims-2-wish-fulfilled.mp3'),
+  ]);
+
+  return {
+    soundPop,
+    soundWalking,
+    soundHeart,
   }
 }
 
@@ -128,6 +153,14 @@ function getEmojisFromMessage(text) {
   return [...text.matchAll(emojiRegex)];
 }
 
+function playSound(audio) {
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.currentTime = 0
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const EMOJI_WIDTH = 64;
   const EMOJI_HEIGHT = 64;
@@ -147,9 +180,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const {
     imageSpleenFacingLeft,
     imageSpleenFacingRight,
-    imageSpleenChomp,
     imageSpleenChompStill,
   } = await initImages();
+
+  const {
+    soundPop,
+    soundWalking,
+    soundHeart,
+  } = await initSounds();
 
   async function runSpleenAnimation({ emoji }) {
     if (!emoji) {
@@ -193,6 +231,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     spleenElement.style.transform = `rotate(${spleenAngle}deg)`;
     spleenContainerElement.style.transform = `translate(${spleenPosX}px, ${spleenPosY}px)`;
 
+    playSound(soundPop);
+
     const emojiAnimateInDurationMs = 1000;
     emojiElement.style.animationDuration = `${emojiAnimateInDurationMs}ms`;
     emojiContainerElement.style.transform = `translate(${emojiPosX}px, ${emojiPosY}px)`;
@@ -200,6 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await wait(emojiAnimateInDurationMs);
 
+    playSound(soundWalking);
     spleenContainerElement.classList.add('spleen-container--transition-movement');
     spleenContainerElement.style.transform = `translate(${isSpleenEnteringFromLeft ? emojiPosX - SPLEEN_WIDTH : emojiPosX}px, ${emojiPosY}px)`;
     
@@ -275,6 +316,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     spleenContainerElement.style.transitionTimingFunction = 'ease-out';
 
     await wait(kidnapTravelDurationMs);
+
+    soundWalking.pause();
     
     const slideInOutChompDurationMs = 1000;
 
@@ -286,9 +329,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await wait(slideInOutChompDurationMs);
 
+    playSound(soundHeart);
+
     const reactionDurationMs = 3000;
 
-    chompReactionElement.style.animationName = 'chompReaction';
+    chompReactionElement.classList.add('chomp__reaction--fade-in-out');
     chompReactionElement.style.animationDuration = `${reactionDurationMs}ms`;
 
     await wait(reactionDurationMs);
@@ -300,6 +345,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     await wait(slideInOutChompDurationMs);
 
     document.body.style.opacity = '0';
+
+    // reset everything isnt it
+    emojiElement.classList.remove('emoji--animate-in');
+    spleenContainerElement.classList.remove('spleen-container--transition-movement');
+    emojiContainerElement.classList.remove('emoji-container--transition-movement');
+    chompContainerElement.classList.remove('chomp-container--from-left');
+    chompContainerElement.classList.remove('chomp-container--from-right');
+    chompContainerElement.classList.remove('chomp-container--to-left');
+    chompContainerElement.classList.remove('chomp-container--to-right');
+    chompReactionElement.classList.remove('chomp__reaction--fade-in-out');
+
+    emojiContainerElement.style = '';
+    emojiElement.style = '';
+    spleenContainerElement.style = '';
+    spleenElement.style = '';
+    chompContainerElement.style = '';
+    chompEmojiElement.style = '';
+    chompSpleenElement.style = '';
+    chompReactionElement.style = '';
   }
 
   feedSpleenChannelPointRedemptionEvents((data) => {
@@ -313,4 +377,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     runSpleenAnimation({ emoji });
   });
+
+  runSpleenAnimation({ emoji: '🐞' });
 });
